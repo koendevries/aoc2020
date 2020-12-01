@@ -30,10 +30,9 @@ public class OneFP {
 
     public static Optional<IntPair> findPairWithSumOf(List<Integer> numbers, int sum) {
         return numbers.stream()
-                .filter(first -> numbers.stream()
-                        .filter(second -> !second.equals(first))
-                        .anyMatch(second -> first + second == sum)
-                ).findAny()
-                .map(first -> new IntPair(first, sum - first));
+                .flatMap(first -> numbers.stream().map(second -> new IntPair(first, second)))
+                .filter(pair -> pair.sum() == sum)
+                .filter(IntPair.allAvailableIn(numbers))
+                .findAny();
     }
 }

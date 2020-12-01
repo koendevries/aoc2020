@@ -33,7 +33,7 @@ public class TwoFP {
         return numbers.parallelStream()
                 .flatMap(first -> numbers.stream().map(second -> new IntPair(first, second)))
                 .flatMap(pair -> numbers.stream().map(third -> new IntTriple(third, pair.left(), pair.right())))
-                .filter(IntTriple::isDistinct)
+                .filter(IntTriple.allAvailableIn(numbers))
                 .filter(triple -> triple.sum() == sum)
                 .findAny();
     }
