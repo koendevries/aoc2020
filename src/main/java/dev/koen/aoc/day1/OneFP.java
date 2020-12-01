@@ -1,4 +1,4 @@
-package dev.koen.aoc.one;
+package dev.koen.aoc.day1;
 
 import java.io.IOException;
 import java.nio.file.Files;
