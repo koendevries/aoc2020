@@ -1,5 +1,7 @@
 package dev.koen.aoc.day1;
 
+import dev.koen.aoc.util.IntPair;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,9 +14,9 @@ public class OneFP {
 
     public static void main(String[] args) {
         final var numbers = readNumbers(Paths.get("src/test/resources/input-one.txt"));
-        findPairSummingTo(numbers, 2020)
+        findPairWithSumOf(numbers, 2020)
                 .ifPresentOrElse(
-                        p -> System.out.println(p.stream().reduce(1, Math::multiplyExact)),
+                        p -> System.out.println(p.multiply()),
                         () -> System.out.println("Unable to sum values to 2020"));
     }
 
@@ -26,12 +28,12 @@ public class OneFP {
         }
     }
 
-    public static Optional<List<Integer>> findPairSummingTo(List<Integer> numbers, int sum) {
+    public static Optional<IntPair> findPairWithSumOf(List<Integer> numbers, int sum) {
         return numbers.stream()
                 .filter(first -> numbers.stream()
                         .filter(second -> !second.equals(first))
                         .anyMatch(second -> first + second == sum)
                 ).findAny()
-                .map(first -> List.of(first, sum - first));
+                .map(first -> new IntPair(first, sum - first));
     }
 }

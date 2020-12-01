@@ -1,5 +1,7 @@
 package dev.koen.aoc.day1;
 
+import dev.koen.aoc.util.IntPair;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,8 +14,8 @@ public class One {
 
     public static void main(String[] args) {
         final var numbers = readNumbers(Paths.get("src/test/resources/input-one.txt"));
-        final var pair = findPairSummingTo(numbers, 2020);
-        System.out.println(pair.stream().reduce(1, Math::multiplyExact));
+        final var pair = findPairWithSumOf(numbers, 2020);
+        System.out.println(pair.multiply());
     }
 
     public static List<Integer> readNumbers(Path p) {
@@ -24,7 +26,7 @@ public class One {
         }
     }
 
-    public static List<Integer> findPairSummingTo(List<Integer> numbers, int sum) {
+    public static IntPair findPairWithSumOf(List<Integer> numbers, int sum) {
         if (numbers.size() <= 1) {
             throw new IllegalArgumentException("Input should have at least 2 numbers");
         }
@@ -33,7 +35,7 @@ public class One {
             final var first = numbers.get(i);
             final var second = sum - first;
             if (numbers.subList(i, numbers.size() - 1).contains(second)) {
-                return List.of(first, second);
+                return new IntPair(first, second);
             }
         }
 

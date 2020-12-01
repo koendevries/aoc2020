@@ -15,9 +15,9 @@ public class TwoFP {
 
     public static void main(String[] args) {
         final var numbers = readNumbers(Paths.get("src/test/resources/input-one.txt"));
-        findTrioWithSumOf(numbers, 2020)
+        findTripleWithSumOf(numbers, 2020)
                 .ifPresentOrElse(
-                        p -> System.out.println(p.multiply()),
+                        triple -> System.out.println(triple.multiply()),
                         () -> System.out.println("Unable to sum values to 2020"));
     }
 
@@ -29,12 +29,12 @@ public class TwoFP {
         }
     }
 
-    public static Optional<IntTriple> findTrioWithSumOf(List<Integer> numbers, int sum) {
+    public static Optional<IntTriple> findTripleWithSumOf(List<Integer> numbers, int sum) {
         return numbers.parallelStream()
                 .flatMap(first -> numbers.stream().map(second -> new IntPair(first, second)))
                 .flatMap(pair -> numbers.stream().map(third -> new IntTriple(third, pair.left(), pair.right())))
                 .filter(IntTriple::isDistinct)
-                .filter(trio -> trio.sum() == sum)
+                .filter(triple -> triple.sum() == sum)
                 .findAny();
     }
 }

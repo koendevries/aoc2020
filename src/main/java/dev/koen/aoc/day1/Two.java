@@ -1,5 +1,7 @@
 package dev.koen.aoc.day1;
 
+import dev.koen.aoc.util.IntTriple;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,8 +14,8 @@ public class Two {
 
     public static void main(String[] args) {
         final var numbers = readNumbers(Paths.get("src/test/resources/input-one.txt"));
-        final var trio = findTrioSummingTo(numbers, 2020);
-        System.out.println(trio.stream().reduce(1, Math::multiplyExact));
+        final var triple = findTripleWithSumOf(numbers, 2020);
+        System.out.println(triple.multiply());
     }
 
     public static List<Integer> readNumbers(Path p) {
@@ -24,7 +26,7 @@ public class Two {
         }
     }
 
-    public static List<Integer> findTrioSummingTo(List<Integer> numbers, int sum) {
+    public static IntTriple findTripleWithSumOf(List<Integer> numbers, int sum) {
         if (numbers.size() <= 2) {
             throw new IllegalArgumentException("Input should have at least 2 numbers");
         }
@@ -35,7 +37,7 @@ public class Two {
                 final var second = numbers.get(j);
                 final var third = sum - first - second;
                 if (numbers.subList(j, numbers.size() - 1).contains(third)) {
-                    return List.of(first, second, third);
+                    return new IntTriple(first, second, third);
                 }
             }
         }
