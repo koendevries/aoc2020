@@ -1,5 +1,8 @@
 package dev.koen.aoc.day1;
 
+import dev.koen.aoc.util.IntPair;
+import dev.koen.aoc.util.IntTriple;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +17,7 @@ public class TwoFP {
         final var numbers = readNumbers(Paths.get("src/test/resources/input-one.txt"));
         findTrioWithSumOf(numbers, 2020)
                 .ifPresentOrElse(
-                        p -> System.out.println(p.stream().reduce(1, Math::multiplyExact)),
+                        p -> System.out.println(p.multiply()),
                         () -> System.out.println("Unable to sum values to 2020"));
     }
 
@@ -26,12 +29,12 @@ public class TwoFP {
         }
     }
 
-    public static Optional<List<Integer>> findTrioWithSumOf(List<Integer> numbers, int sum) {
-        return numbers.stream()
-                .flatMap(first -> numbers.stream().map(second -> List.of(first, second)))
-                .flatMap(pair -> numbers.stream().map(third -> List.of(third, pair.get(0), pair.get(1))))
-                .filter(trio -> trio.stream().mapToInt(Integer::intValue).sum() == sum)
-                .filter(trio -> trio.stream().distinct().count() == 3)
+    public static Optional<IntTriple> findTrioWithSumOf(List<Integer> numbers, int sum) {
+        return numbers.parallelStream()
+                .flatMap(first -> numbers.stream().map(second -> new IntPair(first, second)))
+                .flatMap(pair -> numbers.stream().map(third -> new IntTriple(third, pair.left(), pair.right())))
+                .filter(IntTriple::isDistinct)
+                .filter(trio -> trio.sum() == sum)
                 .findAny();
     }
 }
