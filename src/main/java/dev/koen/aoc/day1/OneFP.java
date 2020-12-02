@@ -1,6 +1,6 @@
 package dev.koen.aoc.day1;
 
-import dev.koen.aoc.util.IntPair;
+import dev.koen.aoc.common.IntPair;
 
 import java.io.IOException;
 import java.nio.file.Files;

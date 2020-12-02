@@ -1,6 +1,6 @@
 package dev.koen.aoc.day1;
 
-import dev.koen.aoc.util.IntTriple;
+import dev.koen.aoc.common.IntTriple;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package dev.koen.aoc.util;
+package dev.koen.aoc.common;
 
 import java.util.ArrayList;
 import java.util.List;

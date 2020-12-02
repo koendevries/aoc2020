@@ -1,31 +1,34 @@
 package dev.koen.aoc.day2;
 
+import dev.koen.aoc.common.Range;
 import dev.koen.aoc.util.FileReader;
-import dev.koen.aoc.util.Range;
 
 import java.nio.file.Path;
+import java.util.function.Predicate;
 
 public class One {
 
     public static void main(String[] args) {
-        final var count = FileReader.readLines(Path.of("src/test/resources/input-two.txt"))
+        final var numberOfValidPasswords = FileReader.readLines(Path.of("src/test/resources/input-two.txt"))
                 .stream()
-                .filter(One::hasValidPassword)
+                .filter(hasValidPassword())
                 .count();
 
-        System.out.println(count);
+        System.out.println(numberOfValidPasswords);
     }
 
-    private static boolean hasValidPassword(String line) {
-        final var parts = line.split(" ");
-        final var range = readRange(parts[0]);
-        final var c = parts[1].charAt(0);
+    private static Predicate<String> hasValidPassword() {
+        return line -> {
+            final var parts = line.split(" ");
+            final var range = readRange(parts[0]);
+            final var c = parts[1].charAt(0);
 
-        final var count = parts[2].chars()
-                .filter(current -> current == c)
-                .count();
+            final var count = parts[2].chars()
+                    .filter(current -> current == c)
+                    .count();
 
-        return range.contains(count);
+            return range.contains(count);
+        };
     }
 
     private static Range readRange(String part) {
