@@ -16,14 +16,18 @@ public class InfiniteWidthCharMap {
                 .collect(Collectors.toList());
     }
 
-    public char getChar(Coordinate coordinate) {
-        final var x = coordinate.x() % map.get(0).length();
+    private char getChar(Coordinate coordinate) {
+        final var x = coordinate.x() % width();
         final var y = coordinate.y();
         return map.get(y).charAt(x);
     }
 
-    public int height() {
+    private int height() {
         return map.size();
+    }
+
+    private int width() {
+        return map.get(0).length();
     }
 
     public List<Character> walkDown(Slope slope) {
