@@ -14,36 +14,30 @@ public class Solution {
         final var lines = FileReader.readLines(Path.of("src/test/resources/input-three.txt"));
         final var map = new InfiniteWidthCharMap(lines);
 
-        solve1().andThen(solve2()).apply(map);
+        solve1(map);
+        solve2(map);
     }
 
-    private static Function<InfiniteWidthCharMap, InfiniteWidthCharMap> solve1() {
-        return map -> {
-            final var numberOfTrees = countTreesOnSlope(map)
-                    .apply(new Slope(3, 1));
+    private static void solve1(InfiniteWidthCharMap map) {
+        final var numberOfTrees = countTreesOnSlope(map)
+                .apply(new Slope(3, 1));
 
-            System.out.println("Result one: " + numberOfTrees);
-
-            return map;
-        };
+        System.out.println("Result one: " + numberOfTrees);
     }
 
-    private static Function<InfiniteWidthCharMap, InfiniteWidthCharMap> solve2() {
-        return map -> {
-            final var numberOfTrees = Stream.of(
-                    new Slope(1, 1),
-                    new Slope(3, 1),
-                    new Slope(5, 1),
-                    new Slope(7, 1),
-                    new Slope(1, 2)
-            )
-                    .map(countTreesOnSlope(map))
-                    .mapToLong(Long::longValue)
-                    .reduce(1, Math::multiplyExact);
+    private static void solve2(InfiniteWidthCharMap map) {
+        final var numberOfTrees = Stream.of(
+                new Slope(1, 1),
+                new Slope(3, 1),
+                new Slope(5, 1),
+                new Slope(7, 1),
+                new Slope(1, 2)
+        )
+                .map(countTreesOnSlope(map))
+                .mapToLong(Long::longValue)
+                .reduce(1L, Math::multiplyExact);
 
-            System.out.println("Result two: " + numberOfTrees);
-            return map;
-        };
+        System.out.println("Result two: " + numberOfTrees);
     }
 
     private static Function<Slope, Long> countTreesOnSlope(InfiniteWidthCharMap map) {
