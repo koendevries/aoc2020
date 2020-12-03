@@ -1,6 +1,5 @@
 package dev.koen.aoc.day3;
 
-import dev.koen.aoc.common.Coordinate;
 import dev.koen.aoc.util.FileReader;
 
 import java.nio.file.Path;
@@ -9,7 +8,6 @@ import java.util.stream.Stream;
 
 public class Solution {
 
-    public static final Coordinate START = new Coordinate(0, 0);
     private static final char TREE = '#';
 
     public static void main(String[] args) {
@@ -49,7 +47,7 @@ public class Solution {
     }
 
     private static Function<Slope, Long> countTreesOnSlope(InfiniteWidthCharMap map) {
-        return slope -> map.walkDown(START, slope)
+        return slope -> map.walkDown(slope)
                 .stream()
                 .filter(c -> c == TREE)
                 .count();

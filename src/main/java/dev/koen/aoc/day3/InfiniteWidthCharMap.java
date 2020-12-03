@@ -2,46 +2,34 @@ package dev.koen.aoc.day3;
 
 import dev.koen.aoc.common.Coordinate;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InfiniteWidthCharMap {
 
-    private final char[][] charMap;
+    private final List<String> map;
 
     public InfiniteWidthCharMap(List<String> rows) {
-        final var height = rows.size();
-        final var width = rows.get(0).length();
-        charMap = new char[height][width];
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                charMap[y][x] = rows.get(y).charAt(x);
-            }
-        }
+        map = rows.stream()
+                .map(String::strip)
+                .filter(s -> !s.isBlank())
+                .collect(Collectors.toList());
     }
 
     public char getChar(Coordinate coordinate) {
-        final var x = coordinate.x() % charMap[0].length;
+        final var x = coordinate.x() % map.get(0).length();
         final var y = coordinate.y();
-        return charMap[y][x];
+        return map.get(y).charAt(x);
     }
 
     public int height() {
-        return charMap.length;
+        return map.size();
     }
 
-    public List<Character> walkDown(Coordinate start, Slope slope) {
-        final var charactersWalkedOn = new ArrayList<Character>();
-
-        var currentCoordinate = start;
-        do {
-            final var currentChar = getChar(currentCoordinate);
-            charactersWalkedOn.add(currentChar);
-            currentCoordinate = currentCoordinate.translate(slope);
-
-        } while (currentCoordinate.y() < height());
-
-        return charactersWalkedOn;
+    public List<Character> walkDown(Slope slope) {
+        return slope.stepsToHeight(height())
+                .stream()
+                .map(this::getChar)
+                .collect(Collectors.toList());
     }
 }
