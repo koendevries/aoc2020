@@ -19,4 +19,12 @@ public class FileReader {
             throw new IllegalArgumentException("Invalid input file in path " + p.toString());
         }
     }
+
+    public static String read(Path p) {
+        try {
+            return Files.readString(p);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Invalid input file in path " + p.toString());
+        }
+    }
 }
