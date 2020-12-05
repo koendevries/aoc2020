@@ -5,6 +5,7 @@ import dev.koen.aoc.util.FileReader;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -23,7 +24,8 @@ public class Solution {
         IntStream.range(0, max)
                 .filter(hasNeighbours(usedSeatIds))
                 .filter(seatId -> !usedSeatIds.contains(seatId))
-                .forEach(System.out::println);
+                .findAny()
+                .ifPresent(System.out::println);
     }
 
     private static IntPredicate hasNeighbours(List<Integer> usedSeatIds) {
@@ -32,13 +34,26 @@ public class Solution {
 
     private static Function<String, Seat> asSeat() {
         return s -> {
-            final var binarySeat = s.chars().mapToObj(BinaryChar::from)
-                    .map(BinaryChar::value)
+            final var binarySeat = s.chars()
+                    .mapToObj(toBinaryChar())
                     .reduce("", (a, b) -> a + b);
 
             final var row = Integer.valueOf(binarySeat.substring(0, 7), 2);
             final var column = Integer.valueOf(binarySeat.substring(7), 2);
             return new Seat(row, column);
+        };
+    }
+
+    private static IntFunction<String> toBinaryChar() {
+        return number -> {
+            final var c = (char) number;
+            if (c == 'F' || c == 'L') {
+                return "0";
+            } else if (c == 'B' || c == 'R') {
+                return "1";
+            } else {
+                throw new IllegalStateException("Unable to parse char " + c + " to binary int");
+            }
         };
     }
 }
