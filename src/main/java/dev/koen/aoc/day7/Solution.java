@@ -44,7 +44,7 @@ public class Solution {
         };
     }
 
-    private static Function<String, BagAmount> readBagAmount() {
+    private static Function<String, Bags> readBagAmount() {
         return s -> {
             final var words = s.strip().split(" ");
             final var amount = Integer.parseInt(words[0]);
@@ -57,7 +57,7 @@ public class Solution {
                     .reduce("", (a, b) -> a + " " + b)
                     .strip();
 
-            return new BagAmount(new Color(color), amount);
+            return new Bags(new Color(color), amount);
         };
     }
 }
@@ -65,13 +65,13 @@ public class Solution {
 record Color(String color) {
 }
 
-record BagAmount(Color color, int amount) {
+record Bags(Color color, int amount) {
 }
 
-record Rule(Color color, Set<BagAmount> bags) {
+record Rule(Color color, Set<Bags> bags) {
 }
 
-record Rules(Map<Color, Set<BagAmount>> rules) {
+record Rules(Map<Color, Set<Bags>> rules) {
 
     int numberOfBagsInside(Color c) {
         final var bagAmounts = rules.get(c);
@@ -98,7 +98,7 @@ record Rules(Map<Color, Set<BagAmount>> rules) {
             }
             return rules.get(bag)
                     .stream()
-                    .map(BagAmount::color)
+                    .map(Bags::color)
                     .anyMatch(contains(search));
         };
     }
