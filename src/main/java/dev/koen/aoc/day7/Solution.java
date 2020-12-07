@@ -37,14 +37,14 @@ public class Solution {
 
             final var bags = Arrays.stream(splitted[1].split(","))
                     .filter(s -> !s.contains("no other"))
-                    .map(readBagAmount())
+                    .map(readBags())
                     .collect(Collectors.toSet());
 
             return new Rule(color, bags);
         };
     }
 
-    private static Function<String, Bags> readBagAmount() {
+    private static Function<String, Bags> readBags() {
         return s -> {
             final var words = s.strip().split(" ");
             final var amount = Integer.parseInt(words[0]);
