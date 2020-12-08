@@ -9,41 +9,30 @@ record Edges(List<Edge> edges) {
         return edges.stream();
     }
 
-    Stream<String> distinct() {
-        return all()
-                .flatMap(e -> Stream.of(e.source, e.destination))
+    Stream<String> allSourceNamesOf(String destination) {
+        return allDistinctSourcesOf(destination)
+                .distinct()
+                .map(Edge::source)
                 .distinct();
     }
 
-    Stream<Edge> withSource(String source) {
-        return all().filter(e -> source.equals(e.source()));
+    Stream<Edge> allDestinationsOf(String source) {
+        return withSource(source)
+                .flatMap(e -> Stream.concat(Stream.of(e), allDestinationsOf(e.destination)));
     }
 
-    Stream<Edge> allSources(String destination) {
+    private Stream<Edge> allDistinctSourcesOf(String destination) {
         return withDestination(destination)
-                .flatMap(e -> Stream.concat(withDestination(destination), Stream.of(e)));
+                .distinct()
+                .flatMap(e -> Stream.concat(Stream.of(e), allDistinctSourcesOf(e.source)));
     }
 
-    Stream<String> sourceless() {
-        return all()
-                .filter(e -> withDestination(e.source).count() == 0)
-                .map(Edge::source);
-    }
-
-    Stream<Edge> withDestination(String destination) {
+    private Stream<Edge> withDestination(String destination) {
         return all().filter(e -> destination.equals(e.destination()));
     }
 
-    Stream<String> destinationless() {
-        return all()
-                .filter(e -> withSource(e.destination).count() == 0)
-                .map(Edge::destination);
-    }
-
-    long count(Edge edge) {
-        return all()
-                .filter(edge::equals)
-                .count();
+    private Stream<Edge> withSource(String source) {
+        return all().filter(e -> source.equals(e.source));
     }
 
     record Edge(String source, String destination) {

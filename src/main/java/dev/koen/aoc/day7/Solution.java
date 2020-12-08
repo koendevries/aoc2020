@@ -23,10 +23,8 @@ public class Solution {
                 .collect(Collectors.toList());
         final var edges = new Edges(listOfEdges);
 
-        System.out.println(edges.all().count());
-        System.out.println(edges.allSources(SHINY_GOLD).count());
-        System.out.println(edges.destinationless().count());
-        System.out.println(edges.sourceless().count());
+        System.out.println(edges.allSourceNamesOf(SHINY_GOLD).count());
+        System.out.println(edges.allDestinationsOf(SHINY_GOLD).count());
     }
 
     private static Function<String, Stream<Edge>> readEdges() {
