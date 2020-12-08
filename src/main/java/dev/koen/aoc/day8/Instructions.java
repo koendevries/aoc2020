@@ -30,11 +30,7 @@ record Instructions(List<Instruction> instructions) {
 
     private Instructions transform(int index) {
         final var result = new ArrayList<>(instructions);
-
-        final var transformedInstruction = result.get(index).transform();
-        result.remove(index);
-        result.add(index, transformedInstruction);
-
+        result.set(index, result.get(index).transform());
         return new Instructions(result);
     }
 
