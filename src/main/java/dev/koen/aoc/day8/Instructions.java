@@ -61,9 +61,3 @@ class Instructions {
         return Stream.concat(Stream.of(new IndexedInstruction(startIndex, instruction)), nextInstructions);
     }
 }
-
-record IndexedInstruction(int index, Instruction instruction) {
-    int nextIndex() {
-        return instruction.nextIndex(index);
-    }
-}
