@@ -9,14 +9,16 @@ import java.util.stream.Collectors;
 public class Solution {
 
     public static void main(String[] args) {
-        final var instructionList = FileReader.readLines(Path.of("src/test/resources/input-eight.txt"))
+        final var listOfInstructions = FileReader.readLines(Path.of("src/test/resources/input-eight.txt"))
                 .stream()
                 .map(asInstruction())
                 .collect(Collectors.toList());
 
-        final var instructions = new Instructions(instructionList);
-        System.out.println(instructions.accumulated());
-        System.out.println(instructions.fixed().accumulated());
+        final var instructions = new Instructions(listOfInstructions);
+
+        System.out.println(instructions.accumulate());
+        System.out.println(instructions.fixed().accumulate());
+
     }
 
     private static Function<String, Instruction> asInstruction() {
