@@ -1,10 +1,12 @@
 package dev.koen.aoc.day6;
 
 import dev.koen.aoc.util.FileReader;
+import dev.koen.aoc.util.TimeUtil;
 
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Solution {
@@ -16,18 +18,18 @@ public class Solution {
                 .map(GroupAnswers::new)
                 .collect(Collectors.toList());
 
-        System.out.println(sumOfAnyones(groups));
-        System.out.println(sumOfEveryones(groups));
+        TimeUtil.print(groups, sumOfAnyones());
+        TimeUtil.print(groups, sumOfEveryones());
     }
 
-    private static long sumOfEveryones(List<GroupAnswers> groups) {
-        return groups.stream()
+    private static Function<List<GroupAnswers>, Long> sumOfEveryones() {
+        return groups -> groups.stream()
                 .flatMap(GroupAnswers::intersection)
                 .count();
     }
 
-    private static long sumOfAnyones(List<GroupAnswers> groups) {
-        return groups.stream()
+    private static Function<List<GroupAnswers>, Long> sumOfAnyones() {
+        return groups -> groups.stream()
                 .flatMap(GroupAnswers::distinct)
                 .count();
     }

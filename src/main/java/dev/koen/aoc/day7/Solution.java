@@ -1,6 +1,7 @@
 package dev.koen.aoc.day7;
 
 import dev.koen.aoc.util.FileReader;
+import dev.koen.aoc.util.TimeUtil;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -22,8 +23,8 @@ public class Solution {
 
         final var rules = new Rules(ruleMap);
 
-        System.out.println(rules.findAllContaining(SHINY_GOLD).size());
-        System.out.println(rules.numberOfBagsInside(SHINY_GOLD));
+        TimeUtil.print(rules, r -> r.findAllContaining(SHINY_GOLD).size());
+        TimeUtil.print(rules, r -> r.numberOfBagsInside(SHINY_GOLD));
     }
 
     private static Function<String, Rule> readRule() {
