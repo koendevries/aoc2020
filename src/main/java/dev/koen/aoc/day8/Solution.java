@@ -16,8 +16,8 @@ public class Solution {
 
         final var instructions = new Instructions(listOfInstructions);
 
-        TimeUtil.print(instructions, Instructions::accumulate);
-        TimeUtil.print(instructions, i -> i.fixed().accumulate());
+        TimeUtil.printWithMillis(instructions, Instructions::accumulate);
+        TimeUtil.printWithMillis(instructions, i -> i.fixed().accumulate());
     }
 
     private static Instruction readInstruction(String instruction) {

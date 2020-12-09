@@ -23,8 +23,8 @@ public class Solution {
 
         final var rules = new Rules(ruleMap);
 
-        TimeUtil.print(rules, r -> r.findAllContaining(SHINY_GOLD).size());
-        TimeUtil.print(rules, r -> r.numberOfBagsInside(SHINY_GOLD));
+        TimeUtil.printWithMillis(rules, r -> r.findAllContaining(SHINY_GOLD).size());
+        TimeUtil.printWithMillis(rules, r -> r.numberOfBagsInside(SHINY_GOLD));
     }
 
     private static Function<String, Rule> readRule() {

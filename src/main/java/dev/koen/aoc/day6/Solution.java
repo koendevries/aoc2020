@@ -18,8 +18,8 @@ public class Solution {
                 .map(GroupAnswers::new)
                 .collect(Collectors.toList());
 
-        TimeUtil.print(groups, sumOfAnyones());
-        TimeUtil.print(groups, sumOfEveryones());
+        TimeUtil.printWithMillis(groups, sumOfAnyones());
+        TimeUtil.printWithMillis(groups, sumOfEveryones());
     }
 
     private static Function<List<GroupAnswers>, Long> sumOfEveryones() {
