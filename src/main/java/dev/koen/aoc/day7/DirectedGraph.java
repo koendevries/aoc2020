@@ -3,28 +3,28 @@ package dev.koen.aoc.day7;
 import java.util.List;
 import java.util.stream.Stream;
 
-record Edges(List<Edge> edges) {
-
-    Stream<Edge> all() {
-        return edges.stream();
-    }
+record DirectedGraph(List<Edge> edges) {
 
     Stream<String> allSourceNamesOf(String destination) {
-        return allDistinctSourcesOf(destination)
-                .distinct()
+        return allSourcesOf(destination)
                 .map(Edge::source)
                 .distinct();
     }
 
-    Stream<Edge> allDestinationsOf(String source) {
+    int numberOfBagsInside(String source) {
         return withSource(source)
-                .flatMap(e -> Stream.concat(Stream.of(e), allDestinationsOf(e.destination)));
+                .mapToInt(e -> e.distance + e.distance * numberOfBagsInside(e.destination))
+                .sum();
     }
 
-    private Stream<Edge> allDistinctSourcesOf(String destination) {
+    private Stream<Edge> all() {
+        return edges.stream();
+    }
+
+    private Stream<Edge> allSourcesOf(String destination) {
         return withDestination(destination)
-                .distinct()
-                .flatMap(e -> Stream.concat(Stream.of(e), allDistinctSourcesOf(e.source)));
+                .flatMap(e -> Stream.concat(Stream.of(e), allSourcesOf(e.source)))
+                .distinct();
     }
 
     private Stream<Edge> withDestination(String destination) {
@@ -35,7 +35,7 @@ record Edges(List<Edge> edges) {
         return all().filter(e -> source.equals(e.source));
     }
 
-    record Edge(String source, String destination) {
+    record Edge(String source, String destination, int distance) {
     }
 
 }
