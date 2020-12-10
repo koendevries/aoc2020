@@ -16,7 +16,7 @@ public class Solution {
         final var joltages = new Joltages(intStream);
 
         TimeUtil.printWithMillis(joltages, j -> j.differences(1).count() * joltages.differences(3).count());
-        TimeUtil.printWithMillis(joltages, Joltages::combinations);
+        TimeUtil.printWithNano(joltages, Joltages::combinations);
     }
 }
 
@@ -51,18 +51,20 @@ class Joltages {
         combinations[0] = 1;
         for (int i = 1; i < joltages.length; i++) {
             combinations[i] += combinations[i - 1];
-            if (i >= 2 && joltages[i] - joltages[i - 2] <= 3) {
-                combinations[i] += combinations[i - 2];
-            }
+
             if (i >= 3 && joltages[i] - joltages[i - 3] <= 3) {
                 combinations[i] += combinations[i - 3];
+                combinations[i] += combinations[i - 2];
+            } else if (i >= 2 && joltages[i] - joltages[i - 2] <= 3) {
+                combinations[i] += combinations[i - 2];
             }
-            if (i == 1 && joltages[i] <= 3) {
-                combinations[i] += 1;
-            }
+
             if (i == 2 && joltages[i] <= 3) {
+                combinations[i] += 2;
+            } else if (i == 1 && joltages[i] <= 3) {
                 combinations[i] += 1;
             }
+
         }
         return combinations[combinations.length - 1];
     }
