@@ -11,8 +11,7 @@ public class Solution {
     public static void main(String[] args) {
         final var intStream = FileReader.readLines(Path.of("src/test/resources/input-ten.txt"))
                 .stream()
-                .mapToInt(Integer::parseUnsignedInt)
-                .sorted();
+                .mapToInt(Integer::parseUnsignedInt);
 
         final var joltages = new Joltages(intStream);
 
@@ -28,12 +27,8 @@ class Joltages {
 
 
     Joltages(IntStream joltages) {
-        this.joltages = joltages.toArray();
-        if (this.joltages.length > 0) {
-            deviceJoltage = this.joltages[this.joltages.length - 1] + 3;
-        } else {
-            deviceJoltage = 3;
-        }
+        this.joltages = joltages.sorted().toArray();
+        deviceJoltage = this.joltages[this.joltages.length - 1] + 3;
     }
 
     IntStream differences() {
@@ -56,10 +51,10 @@ class Joltages {
         combinations[0] = 1;
         for (int i = 1; i < joltages.length; i++) {
             combinations[i] += combinations[i - 1];
-            if (i - 2 >= 0 && joltages[i] - joltages[i - 2] <= 3) {
+            if (i >= 2 && joltages[i] - joltages[i - 2] <= 3) {
                 combinations[i] += combinations[i - 2];
             }
-            if (i - 3 >= 0 && joltages[i] - joltages[i - 3] <= 3) {
+            if (i >= 3 && joltages[i] - joltages[i - 3] <= 3) {
                 combinations[i] += combinations[i - 3];
             }
             if (i == 1 && joltages[i] <= 3) {
