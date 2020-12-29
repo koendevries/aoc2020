@@ -1,6 +1,7 @@
 package dev.koen.aoc.day18;
 
 import dev.koen.aoc.util.FileReader;
+import io.vavr.Function1;
 import io.vavr.Function2;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
@@ -29,17 +30,17 @@ public class Solution {
                 final var closingIndex = cleanedUpLine.indexOf(')');
                 final var startingIndex = cleanedUpLine.substring(0, closingIndex).lastIndexOf('(');
                 final var inner = cleanedUpLine.substring(startingIndex + 1, closingIndex);
-                final var solved = solveSimpleLine(inner).toString();
+                final var solved = solveSimpleLine2(inner).toString();
                 cleanedUpLine = cleanedUpLine.substring(0, startingIndex)
                         + solved
                         + cleanedUpLine.substring(closingIndex + 1);
             }
 
-            return solveSimpleLine(cleanedUpLine);
+            return solveSimpleLine2(cleanedUpLine);
         };
     }
 
-    private static Long solveSimpleLine(String line) {
+    private static Long solveSimpleLine1(String line) {
         final var numbersAndOperators = List.of(line.split("\\s+"))
                 .map(String::strip)
                 .filterNot(String::isBlank)
@@ -61,4 +62,21 @@ public class Solution {
 
         return result;
     }
+
+    private static Long solveSimpleLine2(String line) {
+        return List.of(line.split("\\*"))
+                .map(String::strip)
+                .map(s -> s.split("\\+"))
+                .map(add())
+                .reduce(multiply);
+    }
+
+    private static Function1<String[], Long> add() {
+        return strings -> Stream.of(strings)
+                .map(String::strip)
+                .map(Long::parseUnsignedLong)
+                .reduce(add);
+    }
+
+
 }
