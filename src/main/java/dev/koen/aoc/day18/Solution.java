@@ -78,5 +78,4 @@ public class Solution {
                 .reduce(add);
     }
 
-
 }
