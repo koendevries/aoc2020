@@ -36,11 +36,9 @@ public class Solution2 {
     }
 
     private static String unpack(String s, Map<String, String> rules, int depth) {
-        if (depth > 12) {
-            return "42 31";
-        }
-
-        return Arrays.stream(s.split(" "))
+        return depth > 12
+                ? "42 31"
+                : Arrays.stream(s.split(" "))
                 .map(replaceNumbers(rules, depth))
                 .collect(Collectors.joining())
                 .replace("\"", "");
